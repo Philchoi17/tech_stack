@@ -1,21 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
-export default function App() {
+// importing screens
+import IndexScreen from './src/screens/IndexScreen'
+
+// import redux
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+// import reducers
+import reducers from './src/reducers'
+
+
+// creating navigator where screens will be added
+const navigator = createStackNavigator({
+  Index: IndexScreen
+}, {
+  initialRouteName: 'Index',
+  defaultNavigationOptions: {
+    title: 'Tech Stack'
+  }
+})
+
+
+// creating app container
+const App = createAppContainer(navigator)
+
+// exporting screen / navigator to be shown on screen
+export default () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Provider store={ createStore(reducers) }>
+      <App />
+    </Provider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
